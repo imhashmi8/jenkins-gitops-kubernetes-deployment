@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app
+  labels:
+    app: todo-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+        - name: todo-app
+          image: hashmi111/todo-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-secret
+                  key: MONGO_URI
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
