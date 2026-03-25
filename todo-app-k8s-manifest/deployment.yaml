@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: hashmi111/todo-app:12-00191109db38011ecd2d4e49569a47a6b09d95a8
+          image: hashmi111/todo-app:13-bd0da28e7ff2c152aeca4d76eaadd5204e0834f7
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
